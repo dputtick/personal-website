@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 AUTHOR = 'Daniel Puttick'
 SITENAME = 'Daniel Puttick'
-SITEURL = 'http://danielputtick.com'
+SITEURL = 'https://danielputtick.com'
 THEME = 'simple'
 PATH = 'content'
 
@@ -22,6 +22,7 @@ SOCIAL = (('Github', 'http://www.github.com/dputtick'),
           ('Twitter', 'http://www.twitter.com/dputtick'),)
 
 DEFAULT_PAGINATION = False
+DELETE_OUTPUT_DIRECTORY = False
 
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
