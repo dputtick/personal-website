@@ -3,31 +3,23 @@
 from __future__ import unicode_literals
 
 AUTHOR = 'Daniel Puttick'
-SITENAME = 'danielputtick.com'
-SITEURL = ''
-
+SITENAME = 'Daniel Puttick'
+SITEURL = 'http://danielputtick.com'
+THEME = 'simple'
 PATH = 'content'
 
 TIMEZONE = 'America/New_York'
 
 DEFAULT_LANG = 'en'
+DEFAULT_CATEGORY = 'articles'
 
-# Feed generation is usually not desired when developing
-FEED_ALL_ATOM = None
-CATEGORY_FEED_ATOM = None
-TRANSLATION_FEED_ATOM = None
-AUTHOR_FEED_ATOM = None
-AUTHOR_FEED_RSS = None
+ARTICLE_PATHS = ['/articles']
 
-# Blogroll
-LINKS = (('Pelican', 'http://getpelican.com/'),
-         ('Python.org', 'http://python.org/'),
-         ('Jinja2', 'http://jinja.pocoo.org/'),
-         ('You can modify those links in your config file', '#'),)
+TYPOGRIFY = True
 
 # Social widget
-SOCIAL = (('You can add links in your config file', '#'),
-          ('Another social link', '#'),)
+SOCIAL = (('Github', 'http://www.github.com/dputtick'),
+          ('Twitter', 'http://www.twitter.com/dputtick'),)
 
 DEFAULT_PAGINATION = False
 
