@@ -6,7 +6,7 @@ from __future__ import unicode_literals
 AUTHOR = 'Daniel Puttick'
 SITENAME = 'Daniel Puttick'
 SITEURL = 'https://danielputtick.com'
-THEME = 'simple'
+THEME = 'themes/crowsfoot'
 PATH = 'content'
 TIMEZONE = 'America/New_York'
 DEFAULT_LANG = 'en'
