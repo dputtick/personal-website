@@ -16,10 +16,22 @@ TYPOGRIFY = True
 DEFAULT_PAGINATION = False
 DELETE_OUTPUT_DIRECTORY = False
 
+# Turning off feeds
+FEED_ALL_ATOM = None
+AUTHOR_FEED_ATOM = None
+AUTHOR_FEED_RSS = None
+
 # Social widget
 SOCIAL = (('Github', 'http://www.github.com/dputtick'),
           ('Twitter', 'http://www.twitter.com/dputtick'),)
 
+# Crowsfoot specific settings
+SHOW_ARTICLE_AUTHOR = False
+LICENSE_NAME = 'CC BY-NC'
+LICENSE_URL = 'https://creativecommons.org/licenses/by-nc/4.0/'
+GITHUB_ADDRESS = 'https://www.github.com/dputtick'
+TWITTER_ADDRESS = 'https://www.twitter.com/dputtick'
 
-# Uncomment following line if you want document-relative URLs when developing
-#RELATIVE_URLS = True
+# Uncomment following lines if you want document-relative URLs when developing
+RELATIVE_URLS = True
+LOAD_CONTENT_CACHE = False
