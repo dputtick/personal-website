@@ -12,7 +12,7 @@ TIMEZONE = 'America/New_York'
 DEFAULT_LANG = 'en'
 DEFAULT_CATEGORY = 'misc'
 #ARTICLE_PATHS = ['blog']
-DIRECT_TEMPLATES = ['index', 'categories']
+DIRECT_TEMPLATES = ['index']
 TYPOGRIFY = True
 DEFAULT_PAGINATION = False
 DELETE_OUTPUT_DIRECTORY = False
@@ -38,4 +38,3 @@ MENUITEMS = []
 
 # Uncomment following lines if you want document-relative URLs when developing
 #RELATIVE_URLS = True
-#LOAD_CONTENT_CACHE = False
