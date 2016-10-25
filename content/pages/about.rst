@@ -10,7 +10,7 @@ About
 :summary: About me
 
 
-This Dan Puttick's personal website.
+This is Dan Puttick's personal website.
 
 I’m currently excited to be learning more about a few categories of problems, namely: 
 
