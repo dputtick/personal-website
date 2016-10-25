@@ -9,7 +9,8 @@ About
 :authors: Dan Puttick
 :summary: About me
 
-This is the personal website of Dan Puttick
+
+This Dan Puttick's personal website.
 
 I’m currently excited to be learning more about a few categories of problems, namely: 
 
