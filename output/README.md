@@ -1,0 +1,1 @@
+My personal website built using [Pelican](https://github.com/getpelican/pelican) w/ James Porter's [crowsfoot](https://github.com/porterjamesj/crowsfoot) theme. Check it out at [danielputtick.com](https://danielputtick.com)!
