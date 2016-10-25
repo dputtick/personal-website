@@ -7,17 +7,20 @@ AUTHOR = 'Daniel Puttick'
 SITENAME = 'Daniel Puttick'
 SITEURL = 'https://danielputtick.com'
 THEME = 'themes/crowsfoot'
-PATH = 'content'
+PATH = 'content/'
 TIMEZONE = 'America/New_York'
 DEFAULT_LANG = 'en'
-DEFAULT_CATEGORY = 'articles'
-ARTICLE_PATHS = ['/articles']
+DEFAULT_CATEGORY = 'misc'
+#ARTICLE_PATHS = ['blog']
+DIRECT_TEMPLATES = ['index', 'categories']
 TYPOGRIFY = True
 DEFAULT_PAGINATION = False
 DELETE_OUTPUT_DIRECTORY = False
 
 # Turning off feeds
 FEED_ALL_ATOM = None
+CATEGORY_FEED_ATOM = None
+TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
@@ -31,7 +34,8 @@ LICENSE_NAME = 'CC BY-NC'
 LICENSE_URL = 'https://creativecommons.org/licenses/by-nc/4.0/'
 GITHUB_ADDRESS = 'https://www.github.com/dputtick'
 TWITTER_ADDRESS = 'https://www.twitter.com/dputtick'
+MENUITEMS = []
 
 # Uncomment following lines if you want document-relative URLs when developing
-RELATIVE_URLS = True
-LOAD_CONTENT_CACHE = False
+#RELATIVE_URLS = True
+#LOAD_CONTENT_CACHE = False

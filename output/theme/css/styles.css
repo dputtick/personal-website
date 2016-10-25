@@ -29,9 +29,9 @@ body {
 }
 
 .siteheader {
-    margin-bottom: 30px;
+    /* margin-bottom: 30px; */
     overflow: visible;
-    height: 200px;
+    height: 150px;
 }
 
 .siteimage {
@@ -42,7 +42,7 @@ body {
 .sitetitle {
     font-family: 'Merriweather';
     font-weight: 300;
-    font-size: 4em;
+    font-size: 2.2em;
     padding-left: 10px; /* Hack to dodge :hover issue. */
     position: relative; /* Hack to dodge :hover issue. */
     left: -10px; /* Hack to dodge :hover issue. */
@@ -59,7 +59,7 @@ body {
 /* The navbar. */
 
 .menu {
-    font-size: 1.3em;
+    font-size: 1.1em;
     /* padding-left: 30px; */
 }
 
@@ -148,7 +148,7 @@ sub {
 /* Article */
 
 .article {
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 /* Lists */
@@ -157,6 +157,7 @@ sub {
     line-height: 1.1em;
     margin-top: 0.3em;
     margin-bottom: 0.3em;
+    font-size: 0.8em;
 }
 
 /* Paragraphs. */
@@ -164,6 +165,7 @@ sub {
 .article p {
     line-height: 1.3em;
     margin-bottom: 1.5em;
+    font-size: 0.8em;
 }
 
 /* Headers. */
