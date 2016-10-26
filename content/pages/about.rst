@@ -10,8 +10,6 @@ About
 :summary: About me
 
 
-This is Dan Puttick's personal website.
-
 I’m currently excited to be learning more about a few categories of problems, namely: 
 
 * The issues involved with programming for the web at scale, particularly concurrent/asynchronous programming and distributed systems.
