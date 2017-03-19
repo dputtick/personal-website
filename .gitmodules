@@ -3,4 +3,4 @@
 	url = https://github.com/dputtick/crowsfoot.git
 [submodule "output"]
 	path = output
-	url = ./output/
+	url = ./output
