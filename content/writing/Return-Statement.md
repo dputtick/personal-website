@@ -1,7 +1,7 @@
 Title: Return Statement
-Date: 2017-03-17 00:30
+Date: 2017-03-21 00:30
 Modified: 2017-03-17 00:30
-Category: Programming
+Category: programming
 Slug: return-statement
 
 From July 5th to September 20th of 2016, I spent a majority of my waking hours at the [Recurse Center](https://www.recurse.com/), and I’ve been postponing writing about it ever since. It’s difficult to organize your thoughts immediately after such a *big* thing has ended. In fact, I’m still not exactly sure what I mean by big. Attending RC feels like one of those turning points in life, resembling the societal stereotype of graduating from college or getting married. There’s a tradition of Recursers writing “return statements” (typical silly programming joke) to reflect on and summarize their experiences. When I was considering applying I found reading these both useful and inspiring. Before and during by batch I used them to help think more about what I wanted to work on and learn about. So, here’s my attempt.
