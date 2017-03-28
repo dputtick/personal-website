@@ -13,8 +13,15 @@ from pelicanconf import *
 SITEURL = 'http://danielputtick.com'
 RELATIVE_URLS = False
 
-FEED_ALL_ATOM = 'feeds/all.atom.xml'
+# Feed stuff
+
+FEED_DOMAIN = SITEURL
+
+FEED_ALL_ATOM = 'feeds/atom.xml'
 CATEGORY_FEED_ATOM = 'feeds/%s.atom.xml'
+
+FEED_ALL_RSS = 'feeds/all.rss.xml'
+RSS_FEED_SUMMARY_ONLY = False
 
 DELETE_OUTPUT_DIRECTORY = False
 
