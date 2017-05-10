@@ -1,6 +1,6 @@
 Title: About
 Date: 2016-10-24 10:20
-Modified: 2017-03-28 11:00
+Modified: 2017-05-10 19:00
 Category: page
 Slug: about
 Summary: About me
@@ -12,10 +12,10 @@ I’m currently excited about a few categories of problems, namely:
 - Techniques and processes that result in high code quality and maintainable software, including testing and documentation.
 
 
-- Designing user interfaces that work for everybody.
+- Designing interfaces and APIs that work for everybody.
 
 
-- How to learn and teach programming more effectively.
+- Learning and teaching programming more effectively.
 
 
 I did a batch at the Recurse Center in Summer 2016. The Recurse Center is a self-directed “writers retreat” for programmers of all levels, backgrounds, and interests. I spent three months in NYC teaching myself more about Python internals, network programming, interpreters/programming languages, concurrency, and testing. Oh, and it's free! You can learn more at [recurse.com](https://www.recurse.com/scout/click?t=70c642aa7102a1a2b43dc2ba3585c703), or read my [Return Statement]({filename}/writing/return-statement.md).
