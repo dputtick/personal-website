@@ -8,13 +8,8 @@ Summary: About me
 
 I’m currently excited about a few categories of problems, namely:
 
-
 - Techniques and processes that result in high code quality and maintainable software, including testing and documentation.
-
-
 - Designing interfaces and APIs that work for everybody.
-
-
 - Learning and teaching programming more effectively.
 
 
