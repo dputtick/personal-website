@@ -1,0 +1,106 @@
+Title: Asyncio concepts for beginners
+Date: 2017-06-23 16:10
+Category: programming
+Slug: asyncio-basics
+
+
+Asyncio is a relatively new standard-library solution for writing concurrent programs in Python. It was initially released with Python 3.4, greatly improved in 3.5, and has a solidified API in 3.6. If you’re not entirely sure what “concurrent” means, you should be aware that there are some subtleties in the terminology surrounding the topic (one great place to learn more is a talk called [Concurrency is Not Parallelism](https://blog.golang.org/concurrency-is-not-parallelism) by Rob Pike). But, for the sake of this tutorial you can just think of a concurrent program as one that tries to “do many things at once” – a common example might be a web server handling many requests from different users. Asyncio is an important development for Python – the language has arguably been missing support for native concurrency comparable to that in node.js or Go, to name two examples.
+
+If you’re trying to use asyncio and you find yourself frustrated, you should know that you’re not alone. At present, getting started developing with asyncio is still somewhat difficult. The module contains a confusing array of primitives, as Armin Ronacher [describes](http://lucumr.pocoo.org/2016/10/30/i-dont-understand-asyncio/), and the changes that were made between Python 3.4 and 3.5 only add to the confusion. From my perspective, the official documentation is still an unfinished product. Hopefully, it will improve to match the rest of the excellent Python standard library docs now that major changes to asyncio are less likely. There are various tutorials describing things you can build with asyncio, as well as guides to the higher-level concepts behind asyncio-style concurrency. However, if you’re stuck trying to write your first few scripts on your own, this post might help you past that roadblock.
+
+In an appearance on the [Talk Python to Me](https://talkpython.fm/episodes/show/107/python-concurrency-with-curio) podcast, David Beazley expressed his frustration that so many explanations of complex libraries like asyncio start with the technical underpinnings of the design and then build up to providing practical information about using the tool. For some people, writing toy examples to play around with is the best way to grow that lower-level understanding. I’ll try to identify what you need to get started writing simple asyncio programs and explain a few details about how the module works. There are also links to the standard library documentation for each section.
+
+Note that, for the sake of simplicity, everything in this guide assumes you’re using Python 3.5+ (preferably 3.6, it’s great!). If you see things like `yield from` or `@asyncio.coroutine` elsewhere, the author is probably using Python 3.4. The 3.5+ equivalents are `await` and `async def`.
+
+## [Coroutines](https://docs.python.org/3/library/asyncio-task.html#coroutines)
+
+When you start writing a program with asyncio, the first thing you’ll want to do is define some coroutines. In asyncio, coroutines serve the same role as functions do in normal, synchronous code – they help break up the problem into smaller pieces. A coroutine looks a lot like a normal Python function, except that you add an `async` keyword:
+
+    :::python3
+    async def foo():
+        print('Hello world')
+
+
+The code inside a coroutine can be identical to the code inside a function body – you can assign variables, call synchronous functions, `print()` things, etc. You can also do something that you can’t do inside a function: call other coroutines! To call a coroutine from inside another coroutine, you can use the `await` keyword, and then invoke the coroutine as you would a function:
+
+    :::python3
+    async def foo():
+    	bar = await baz()
+
+
+In this case, the coroutine `baz`, defined elsewhere, will be run, and whatever it returns will be assigned to `bar`. You can also run `baz` without storing its result: `await baz()`. Calling a coroutine inside another coroutine is intentionally designed to resemble calling a function. However, don’t forget: you’ll get a `SyntaxError` if you use `await` in synchronous code.
+
+## [Event Loops](https://docs.python.org/3/library/asyncio-eventloops.html#event-loops)
+
+After reading that last sentence, you might be wondering: how do you call the ”first“ coroutine before using `await` syntax to call the others? There must be a way to call coroutines ”normally“. If you’re the experimenting type, you might try calling a coroutine just like a function: `foo()`. You’ll see that nothing seems to occur (although something does happen behind the scenes). Interestingly, when you call a coroutine without `await`, you don’t actually start running the code inside the coroutine. Rather, the coroutine initializes itself and then waits for something else to tell it to run.
+
+So, getting back to our question: how do you run a coroutine when you aren’t already inside of another coroutine? The answer is, you have to manually “schedule” its execution. Remember, we’re trying to write programs that “do many things at once” – in this context, “scheduling” a coroutine means adding it to the set of “things” that we want to run concurrently. In order to manage this set of scheduled coroutines, we have to introduce another important asyncio concept: the event loop. I’ll explain more about what event loops are a little later, but for now you should just think of them as the black box responsible for managing the execution of all coroutines that are running at any point in time. Asyncio has a built-in function that returns the default event loop:
+
+    :::python3
+    import asyncio
+
+    our_loop = asyncio.get_event_loop()
+
+
+## [Tasks](https://docs.python.org/3/library/asyncio-task.html#task)
+
+Now that we have our event loop, we need to tell it to schedule and run a coroutine. To do that, we’ll only need a few lines of code. First, as discussed above, we initialize our coroutine:
+
+    :::python3
+    our_task = our_coroutine()
+
+I’ve named the variable `our_task`, because `Task` is what asyncio calls an initialized coroutine. Task objects have some useful methods, but we don’t need to worry about them for now. Understanding exactly what `Tasks` are (and `Futures`, of which `Tasks` are a subclass) isn’t critical for writing simple asyncio programs. Then, we tell our event loop (which we created earlier) to run our task:
+
+    :::python3
+    our_loop.run_until_complete(our_task)
+
+And that’s it! The event loop will manage the execution of our coroutine until it returns. Whatever `our_task` returns will also be returned by `run_until_complete`. As a side note, when we use `await` syntax to call a coroutine, that coroutine is also being scheduled by the event loop. In that case, asyncio handles the scheduling automatically, instead of having us do it ourselves. So, if `our_coroutine()` is awaiting other coroutines, the event loop is scheduling those as well.
+
+## [Task Functions](https://docs.python.org/3/library/asyncio-task.html#task-functions)
+
+With just these tools, you can start writing some toy programs to get a better feel for using asyncio. However, chances are you’ll often want to start many coroutines at the same time, and wait for all of them to complete before proceeding. Asyncio offers a few built-in ways to `await` many coroutines at the same time using just one line of code. The two most immediately useful ones are `asyncio.gather()` and `asyncio.wait()`. The difference between them is somewhat subtle. `asyncio.gather()` takes a sequence of tasks (aka initialized coroutines) passed in directly as a `*arg`. If you have, say, a list of tasks, using `asyncio.gather()` looks like:
+
+    :::python3
+    # you will have written and initialized these tasks earlier, as above
+    list_of_tasks = [task1, task2, task3]
+    result = await asyncio.gather(*list_of_tasks)
+
+On the other hand, asyncio.wait() takes the entire sequence as its argument:
+
+    :::python3
+    tuple_of_tasks = (task1, task2, task3)  # could be a list, dict keys, etc
+    done, pending = await asyncio.wait(tuple_of_tasks)
+
+
+Along with the syntax, there is a functional difference between `gather` and `wait`. With `gather`, you have no control over the coroutines that are being executed. You can’t cancel them or make them time out. With `wait`, you can interact with specific tasks and cancel them. You can also control the conditions under which `wait` returns – for example, you can have it return immediately when any one of the coroutines you passed in finishes, rather than waiting for all of them. You can read [this](https://docs.python.org/3/library/asyncio-task.html#task-functions) section of the documentation for more details. There are a few more useful task functions listed there as well: take a look at `as_completed` and `sleep`.
+
+## More on event loops
+
+As I mentioned earlier, event loops are the “black boxes” that run multiple coroutines simultaneously. Event loops are designed to deal with the problem of how to "do many things at once" when you can only perform a single computation with each CPU cycle. As an illustrative analogy, let’s say you’ve sent a message to ten different friends and you’re waiting for them to respond. When you do receive a response, you’ll then take the time to read it. However, let’s pretend that you can only check for a response from one friend at a time, rather than all of them at once. Your solution would likely be to look for a new message from each friend in sequence, and then repeat this process from the top of the list. This is more or less what an event loop does! Event loops are used throughout your computer when something needs to monitor and wait for a “message” of some sort. For example, something resembling an event loop is used by your USB driver to register input from a USB keyboard. Some code for a very simple event loop might be:
+
+    :::python3
+    while True:
+    	for coroutine in coroutines:
+    		if coroutine.has_computation_to_run:
+    			coroutine.execute()
+
+In fact, the asyncio event loop implementation contains something like this `while` loop, albeit surrounded by a lot of other code designed to make it more efficient. You can see it in the CPython source code, here: https://github.com/python/cpython/blob/3.6/Lib/asyncio/base_events.py#L420-L423. Modern event loops don’t run continuously, but rather use events called “interrupts” to pause and resume their execution. This makes sense, because having a constantly running loop is an inefficient use of CPU cycles, especially when you don’t expect events to occur particularly frequently. If, in the above example, you’re expecting a new message from your friends every 2 hours or so, cycling through your messaging app constantly is probably not the best use of your time. Further details about event loop implementations are interesting, but outside the scope of this post.
+
+Asyncio comes with its own default implementation of an event loop, but using it isn’t essential to the functioning of asyncio. If you’d like, you can switch out the default event loop for a third-party event loop implementation. One such external event loop module that’s getting a lot of attention is [uvloop](https://magic.io/blog/uvloop-blazing-fast-python-networking/). Switching to another event loop is as simple as installing it with pip, importing it, and selecting it:
+
+    :::python3
+    import uvloop
+
+    loop = uvloop.new_event_loop)
+    asyncio.set_event_loop(loop)
+
+Of course, the default event loop is fine for most purposes that aren’t overly concerned about performance – it’s just worth noting that it’s a piece of code like anything else and isn’t somehow magically baked into asyncio.
+
+## Final thoughts
+
+One potential point of confusion when using asyncio revolves around the difference between “blocking” and “non-blocking” code. You’re familiar with the concept of blocking even if you don’t realize it yet – all synchronous code is blocking when run on the Python interpreter. Blocking code is code that prevents the program from continuing until it has finished executing. When you write normal Python, you can rely on the interpreter to execute the code in the order you wrote it because each instruction “blocks” until it finishes. As I mentioned above, you can run any synchronous code from inside an asynchronous coroutine. However, if any of your synchronous code has the potential to pause and not complete, it can bring the execution of your entire program to a halt. This is why, for example, you shouldn’t use the popular [Requests](http://docs.python-requests.org/en/master/) library to make http requests inside a coroutine. Instead, you should use a library like [Aiohttp](https://aiohttp.readthedocs.io/en/stable/), which implements non-blocking http requests using asyncio coroutines. On the other hand, even though something like `print()` is technically blocking, it’s safe to use because its behavior and execution time is predictable.
+
+When I first started trying out asyncio, I found it frustrating and hard to use. I wanted to write something like the concurrent version of “hello world”, whatever that may be, but it wasn’t obvious how to do so. With just the information from this tutorial, I hope you’ll be able to write a simple program that, say, runs a bunch of coroutines which each count up to 10 concurrently. [Here’s a gist](https://gist.github.com/dputtick/c76039b11f86b1a58c458321a5bbac20) with an example in case you’d like some inspiration. Since so many applications of concurrency involve programming for the web, you might want to try something like writing a small web crawler once you’ve got the hang of basic asyncio concepts. Best of luck!
+
+
+Thanks to Julia Evans, Laura Lindzey, and Emil Sit for their comments and suggestions.
