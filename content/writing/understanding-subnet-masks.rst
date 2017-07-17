@@ -1,8 +1,8 @@
-Subnet masks
-############
+Understanding subnet masks
+##########################
 
 :date: 2017-07-17 18:00
-:modified: 2017-07-17 19:20
+:modified: 2017-07-17 19:22
 :category: programming
 :slug: subnet-masks
 
