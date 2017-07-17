@@ -2,6 +2,7 @@ Subnet masks
 ############
 
 :date: 2017-07-17 18:00
+:modified: 2017-07-17 19:20
 :category: programming
 :slug: subnet-masks
 
@@ -42,3 +43,5 @@ To summarize
 ------------
 
 In conclusion, here are the key takeaways from my original question. First, a bitmask is a way for a computer to efficiently check whether part of a chunk of bytes matches some pattern. Second, a netmask is a bitmask designed to check whether part of a network address matches a specific pattern. Third, subnet masks are a category of netmasks, used to match whether a message is destined for a particular subsection of a network. In practice, the difference between a netmask is almost always nonexistent, as netmasks are usually used as subnet masks. And finally, one (of many) applications of subnet masks is related to the routing of packets on the Internet, a system which has an interesting history behind it.
+
+Thanks to Or Mattatia and Ahmad Jarara for their comments and suggestions.
