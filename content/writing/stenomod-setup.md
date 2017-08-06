@@ -1,4 +1,4 @@
-Title: Setting Up The Stenomod
+Title: Setting up the Stenomod
 Date: 2017-05-16 00:19
 Modified: 2017-05-16 00:19
 Category: programming

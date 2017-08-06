@@ -1,4 +1,4 @@
-Title: On Pair Programming
+Title: On pair programming
 Date: 2017-05-24 16:00
 Category: programming
 Slug: pairing

@@ -1,4 +1,4 @@
-Title: Naming Things
+Title: Naming things
 Date: 2017-06-01 14:00
 Modified: 2017-06-02 14:00
 Category: programming
