@@ -1,5 +1,5 @@
 Title: Writing a postmortem: an interview exercise I really like
-Date: 2017-10-26 15:30
+Date: 2017-10-31 15:30
 Category: programming
 Slug: mapbox-postmortem-interview
 
