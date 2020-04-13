@@ -9,7 +9,7 @@ sys.path.append(os.curdir)
 from pelicanconf import *
 
 # Reconfigure for production
-SITEURL = 'https://danielputtick.com'
+SITEURL = 'https://www.danielputtick.com'
 RELATIVE_URLS = False
 
 # Feed settings
