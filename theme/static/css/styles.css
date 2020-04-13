@@ -47,7 +47,8 @@
 
 .footer {
     flex-shrink: 0;
-    margin-left: 20px;
+    margin-left: 40px;
+    font-size: 14px;
 }
 
 .site-title {

@@ -4,6 +4,7 @@
     {% block head %}
     <title>{{ SITENAME }}</title>
     <meta charset="utf-8"/>
+    <link rel="preload" href="{{ SITEURL }}/theme/css/styles.css" as="style"/>
     <link type="text/css" href="{{ SITEURL }}/theme/css/styles.css" rel="stylesheet" media="all"/>
     <link type="image/x-icon" href="{{ SITEURL }}/theme/favicon.png" rel="icon"/>
     {% if FEED_ATOM %}
