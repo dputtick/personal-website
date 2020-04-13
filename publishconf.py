@@ -1,31 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- #
-from __future__ import unicode_literals
 
 # This file is only used if you use `make publish` or
 # explicitly specify it as your config file.
-
 import os
 import sys
 sys.path.append(os.curdir)
 from pelicanconf import *
 
-SITEURL = 'http://danielputtick.com'
+# Reconfigure for production
+SITEURL = 'https://danielputtick.com'
 RELATIVE_URLS = False
 
-# Feed stuff
-
+# Feed settings
 FEED_DOMAIN = SITEURL
-
-FEED_ALL_ATOM = 'feeds/atom.xml'
-CATEGORY_FEED_ATOM = 'feeds/%s.atom.xml'
-
-FEED_ALL_RSS = 'feeds/all.rss.xml'
-RSS_FEED_SUMMARY_ONLY = False
-
-DELETE_OUTPUT_DIRECTORY = False
-
-# Following items are often useful when publishing
-
-# DISQUS_SITENAME = ""
-# GOOGLE_ANALYTICS = ""
+FEED_ATOM = 'feeds/atom.xml'
+CATEGORY_FEED_ATOM = 'feeds/{slug}.atom.xml'  # Can maybe use category feeds to have a separate writing and journal feed

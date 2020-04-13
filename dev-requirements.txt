@@ -1,6 +1,0 @@
-bpython
-flake8
-pytest
-pelican
-markdown
-typogrify

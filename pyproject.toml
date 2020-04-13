@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "dputtick.github.io"
+version = "0.1.0"
+description = ""
+authors = ["Dan Puttick <me@danielputtick.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pelican = "^4.2.0"
+markdown = "^3.2.1"
+typogrify = "^2.0.7"
+
+[tool.poetry.dev-dependencies]
+
+[tool.poetry.scripts]
+build-local = "make html"
+publish = "make publish"
+serve = "make serve"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

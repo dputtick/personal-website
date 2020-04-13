@@ -1,6 +1,5 @@
 Title: Writing a postmortem: an interview exercise I really like
 Date: 2017-10-31 15:30
-Category: programming
 Slug: mapbox-postmortem-interview
 
 First, some exciting news that's relevant as context: starting in November, I'll be joining [Mapbox](https://www.mapbox.com/) in their Washington, DC office. One thing that made me excited about joining Mapbox was how much I enjoyed their [interview process](https://blog.mapbox.com/how-we-hire-at-mapbox-cd946418299f). No part of it felt like it required extra "preparation" and it was clear that some significant thought had been put into its design. In my opinion, this is a pretty useful signal about an engineering organization. If we accept that finding great engineers (by whatever definition of "great" you subscribe to) is one of the largest contributors to the success of any company, it's possible that a company with an interview process that appears disorganized or nonsensical is otherwise well-functioning, but it's probably at least somewhat less likely.

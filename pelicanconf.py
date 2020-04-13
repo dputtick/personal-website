@@ -2,41 +2,58 @@
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 
-# Basic config
-AUTHOR = 'Dan Puttick'
-SITENAME = 'Daniel Puttick'
-SITEURL = 'http://danielputtick.com'
-THEME = 'themes/crowsfoot'
+# Configure generation
+THEME = 'theme'
 PATH = 'content/'
+TYPOGRIFY = True
+PORT = 8000
+DELETE_OUTPUT_DIRECTORY = False
+OUTPUT_RETENTION = ['.git']
+
+# Configure site
+AUTHOR = 'Dan Puttick'
+SITENAME = 'Dan Puttick'
+SITEURL = 'http://danielputtick.com'
 TIMEZONE = 'America/New_York'
 DEFAULT_LANG = 'en'
-DEFAULT_CATEGORY = 'misc'
-PAGE_PATHS = ['pages']
-ARTICLE_PATHS = ['writing']
-DIRECT_TEMPLATES = ['index']
-TYPOGRIFY = True
-DEFAULT_PAGINATION = False
-DELETE_OUTPUT_DIRECTORY = False
+DEFAULT_DATE_FORMAT = '%Y-%m-%d'
 
-# Turning off feeds
+# Layout
+DIRECT_TEMPLATES = ['index']
+DISPLAY_PAGES_ON_MENU = True
+DISPLAY_CATEGORIES_ON_MENU = True
+DEFAULT_PAGINATION = False
+
+# Categories
+USE_FOLDER_AS_CATEGORY = True
+DEFAULT_CATEGORY = 'journal'
+CATEGORY_URL = '{slug}.html'
+CATEGORY_SAVE_AS = '{slug}.html'
+
+# Articles
+ARTICLE_PATHS = ['journal', 'writing']
+ARTICLE_URL = '{category}/{slug}.html'
+ARTICLE_SAVE_AS = '{category}/{slug}.html'
+DRAFT_URL = 'drafts/{slug}.html'
+
+# Pages
+PAGE_PATHS = ['pages']
+PAGE_URL = '{slug}.html'
+PAGE_SAVE_AS = '{slug}.html'
+
+# Turn off things we don't need
+AUTHOR_SAVE_AS = ''
+TAG_SAVE_AS = ''
+
+# Feed settings
 FEED_ALL_ATOM = None
-FEED_ALL_RSS = None
 CATEGORY_FEED_ATOM = None
-TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
-# Social widget
-SOCIAL = (('Github', 'https://www.github.com/dputtick'),
-          ('Twitter', 'https://www.twitter.com/dputtick'),)
-
-# Crowsfoot specific settings
-SHOW_ARTICLE_AUTHOR = False
-LICENSE_NAME = 'CC BY-NC'
-LICENSE_URL = 'https://creativecommons.org/licenses/by-nc/4.0/'
+# Social links
 GITHUB_ADDRESS = 'https://www.github.com/dputtick'
 TWITTER_ADDRESS = 'https://www.twitter.com/dputtick'
-MENUITEMS = []
 
-# Uncomment following lines if you want document-relative URLs when developing
+# Specifically for local development
 RELATIVE_URLS = True

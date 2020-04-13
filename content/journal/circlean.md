@@ -1,7 +1,6 @@
 Title: CIRCLean
 Date: 2017-03-30 16:10
 Modified: 2017-03-30 16:10
-Category: programming
 Slug: circlean
 
 For the last few months, I’ve been working full-time on an interesting open source project called [CIRCLean](https://github.com/CIRCL/Circlean). CIRCLean solves a niche yet important problem: what you do you do when you are given a USB drive but cannot verify that the key is safe to use? There are various exploits in the wild that use compromised USB key firmware as a vector, often referred to collectively as “BadUSB” attacks. These work by, for example, modifying the firmware of the key to make it “pretend” to be a keyboard and perform keystrokes on the target computer[^fn-badusb]. Alternatively, an otherwise normal key can contain malware and deliver it either by exploiting a kernel vulnerability or even by simple user error. One newsworthy example of an attack delivered via USB key was the Stuxnet[^fn-stuxnet] incident involving the Iranian nuclear program.

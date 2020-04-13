@@ -1,7 +1,6 @@
 Title: Setting up the Stenomod
 Date: 2017-05-16 00:19
 Modified: 2017-05-16 00:19
-Category: programming
 Slug: stenomod-setup
 
 
@@ -13,7 +12,7 @@ Historically, stenography equipment and training has come at a steep price. Olde
 
 A few of us found out about steno via Mirabai Knight, who provided open captioning for [!!Con](http://bangbangcon.com/) this year (and in years past). We decided to purchase a Stenomod to experiment with. Our hypothesis was that, assuming the learning curve isn’t too steep, stenography might in fact be a fundamentally better way to input text. Although all of us are programmers, I’m not sure that we’ll actually use the Stenomod for programming. Typically, the bottleneck for throughput with programming is the speed of thought, not the speed of typing. However, programmers and other knowledge workers spend large amounts of time responding to email and writing text associated with their code, including design documents and technical documentation. If steno allows you to write prose at closer to the speed at which you think, it might truly be worth learning.
 
-**Stenomod Setup Instructions**
+## Stenomod Setup Instructions
 
 Now, the practical part of this post: our Stenomod arrived the other day and at first we had some trouble setting it up with MacOS. I thought I’d document the process, since we couldn’t find a complete set of instructions that explained our problem. First, a bit of background information. The Stenomod connects to your computer using a microUSB cable, which it uses both for power and to transmit data. When a normal USB keyboard transmits data as you type, it uses a universal protocol that the USB hid (human input device) driver in your kernel (operating system) can understand and decode. The Stenomod sends its data using serial-over-USB. This means that the USB port is actually being used to simulate an old-style serial port, where information is sent as a stream of raw binary data (1s and 0s), and it is the application’s job to decode it. Depending on your OS you’ll probably have to install a device driver to allow your computer to handle serial-over-USB. MacOS comes with a serial-over-USB driver preinstalled starting with 10.9, but it isn’t the correct one for the current version of the Stenomod. You’ll also have to install Plover, whose job it will be to listen to the raw bytes the Stenomod is sending, decode them, and translate them into text that will then appear on your screen.
 

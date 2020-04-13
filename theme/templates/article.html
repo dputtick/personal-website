@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="article-title">
+  <a href="/{{ article.url }}" rel="bookmark" title="Permalink to {{ article.title|striptags }}">{{ article.title }}</a>
+</h1>
+<div class="article-date">
+  <p title="{{ article.date.isoformat() }}">{{ article.locale_date }}</p>
+</div>
+<div class="article">
+{{ article.content }}
+</div>
+{% endblock %}
+
+{% block footer %}
+<p class="footer">© {{ AUTHOR }}, license <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a> unless otherwise noted.</p>
+{% endblock footer %}

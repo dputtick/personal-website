@@ -1,6 +1,5 @@
 Title: Asyncio concepts for beginners
 Date: 2017-06-26 15:00
-Category: programming
 Slug: asyncio-basics
 
 

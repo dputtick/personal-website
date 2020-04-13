@@ -1,0 +1,212 @@
+@import url("reset.css");
+@import url("pygments.css");
+
+.page-wrap {
+    font-family: "system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif";
+    box-sizing: border-box;
+    min-height: 100vh;
+    padding: 30px 0;
+    padding-left: 20px;
+    padding-right: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-wrap {
+    flex-grow: 1;
+    padding-bottom: 20px;
+}
+
+.content {
+    max-width: 640px;
+}
+
+@media screen and (min-width: 641px) {
+    .content {
+        margin-left: 200px;
+    }
+
+    .sidebar {
+        width: 200px;
+        position: fixed;
+        box-sizing: border-box;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .sidebar {
+        padding-bottom: 40px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .article-list-date {
+        display: none;
+    }
+}
+
+.footer {
+    flex-shrink: 0;
+    margin-left: 20px;
+}
+
+.site-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.navbar-list {
+    list-style: none;
+}
+
+.navbar-list-item {
+    font-size: 16px;
+    line-height: 1.2;
+}
+
+.article-list {
+    list-style: none;
+}
+
+.article-list-item {
+    display: flex;
+    height: 30px;
+    line-height: 30px;
+}
+
+.article-list-date {
+    flex-shrink: 0;
+    width: 120px;
+}
+
+.article-list-title {
+    overflow: hidden;
+}
+
+a {
+    color: #2E2E2E;
+    transition:color .1s ease-in-out;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #004680;
+}
+
+.article-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.article-date {
+    margin-bottom: 16px;
+}
+
+.article h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.article h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+
+.article p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 30px;
+}
+
+.article ol, .article ul {
+    margin-left: 40px;
+    margin-bottom: 20px;
+    margin-top: -8px;
+}
+
+.article ol {
+    list-style-type: decimal;
+}
+
+.article ul {
+    list-style-type: disc;
+}
+
+.article * li {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.article a {
+    text-decoration: underline;
+}
+
+.article code {
+    border-radius: 2px;
+    background-color: #e6e6e6;
+}
+
+sup, sub {
+    vertical-align: 0;
+    position: relative;
+}
+
+sup {
+    bottom: 0.5em;
+    font-size: 0.6em;
+}
+
+sub {
+    top: 0.8em;
+    font-size: 0.6em;
+}
+
+.highlight {
+    background-color: #e6e6e6;
+    margin-bottom: 20px;
+    overflow: auto;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+}
+
+.highlight pre {
+    margin: auto;
+    padding: 1em;
+    line-height: 1.2;
+}
+
+.highlight code {
+    font-family: 'Monaco';
+    font-size: 12px;
+    border: none;
+}
+
+.footnote hr {
+    background-color: black;
+    height: 1px;
+    margin-bottom: 20px;
+}
+
+.footnote ol {
+    margin-top: 0px;
+}
+
+.footnote li {
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.footnote p {
+    font-size: 14px;
+    margin-bottom: 0px;
+}
+
+.page-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
