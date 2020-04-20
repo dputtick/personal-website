@@ -1,0 +1,9 @@
+Title: Site update
+Date: 2020-04-20
+Slug: site-update
+
+I've taken advantage of some free time to make some design and functionality changes to this site. The most notable of these is that I've split written content into two categories: "writing" and "journal". I'd like to make it easier for myself to write more frequently and in smaller, less thoroughly-edited chunks. I think the barrier there is largely psychological, and I'm hoping this well help. The "journal" will be things I've written in one sitting, with perhaps a single pass of editing. I won't try to guarantee that they're accurate, well-written, well-thought-out, unique, etc. Many of them might end up being titled with just a date. The "writing" section will be longer pieces that I've invested some amount of effort into. I'll intend to make them evergreen, and update them if I have changes to my thinking. It's possible that some pieces will start out as journal entries before morphing into full-on writing: that's another goal of this experiment.
+
+Along with the main Atom feed, the two categories have their own Atom feeds, to make it easy to follow them separately. I've sorted my existing writing into the two categories based on how well I feel they've held up.
+
+In terms of design tweaks, I threw out the Pelican theme I had chosen and lightly modified to my liking and wrote my own html/css from scratch. I found it was noticeably different to think about the "right" way to do things rather than just tweaking values until it looked the way I hoped. I also had to learn some details of a few css techniques I had only heard about previously, such as flexbox. The performance still isn't as snappy as I'd want it. After some brief profiling it seems likely there are some gains to be had from optimizing and minifying the css I wrote. But, I think it will do for now.
