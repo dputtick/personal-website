@@ -9,6 +9,7 @@ TYPOGRIFY = True
 PORT = 8000
 DELETE_OUTPUT_DIRECTORY = False
 OUTPUT_RETENTION = ['.git']
+OUTPUT_PATH = 'docs/'
 
 # Configure site
 AUTHOR = 'Dan Puttick'

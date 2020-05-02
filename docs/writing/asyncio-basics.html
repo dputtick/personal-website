@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Dan Puttick</title>
+    <meta charset="utf-8"/>
+    <link rel="preload" href="https://www.danielputtick.com/theme/css/styles.css" as="style"/>
+    <link type="text/css" href="https://www.danielputtick.com/theme/css/reset.css" rel="stylesheet" media="all"/>
+    <link type="text/css" href="https://www.danielputtick.com/theme/css/styles.css" rel="stylesheet" media="all"/>
+    <link type="text/css" href="https://www.danielputtick.com/theme/css/pygments.css" rel="stylesheet" media="all"/>
+    <link type="image/x-icon" href="https://www.danielputtick.com/theme/favicon.png" rel="icon"/>
+    <link href="/feeds/atom.xml" type="application/atom+xml" rel="alternate" title="Dan Puttick"/>
+    <link href="/feeds/writing.atom.xml" type="application/atom+xml" rel="alternate" title="Dan Puttick Writing"/>
+    <link href="/feeds/journal.atom.xml" type="application/atom+xml" rel="alternate" title="Dan Puttick Journal"/>
+  </head>
+  <body>
+    <div class="page-wrap">
+      <div class="content-wrap">
+        <div class="sidebar">
+          <h1 class="site-title"><a href="https://www.danielputtick.com">Dan Puttick</a></h1>
+          <nav>
+            <ul class="navbar-list">
+              <li class="navbar-list-item"><a href="https://www.danielputtick.com/writing.html">Writing</a></li>
+              <li class="navbar-list-item"><a href="https://www.danielputtick.com/journal.html">Journal</a></li>
+              <li class="navbar-list-item"><a class="icon-github" href="https://www.github.com/dputtick">Github</a></li>
+              <li class="navbar-list-item"><a class="icon-twitter" href="https://www.twitter.com/dputtick">Twitter</a></li>
+              <li class="navbar-list-item" class="active" ><a href="https://www.danielputtick.com/about.html">About</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="content">
+<h1 class="article-title">
+  <a href="/writing/asyncio-basics.html" rel="bookmark" title="Permalink to Asyncio concepts for beginners">Asyncio concepts for&nbsp;beginners</a>
+</h1>
+<div class="article-date">
+  <p title="2017-06-26T15:00:00-04:00">2017-06-26</p>
+</div>
+<div class="article">
+<p>Asyncio is a relatively new standard-library solution for writing concurrent programs in Python. It was initially released with Python 3.4, greatly improved in 3.5, and has a solidified <span class="caps">API</span> in 3.6. If you’re not entirely sure what “concurrent” means, you should be aware that there are some subtleties in the terminology surrounding the topic (one great place to learn more is a talk called <a href="https://blog.golang.org/concurrency-is-not-parallelism">Concurrency is Not Parallelism</a> by Rob Pike). But, for the sake of this tutorial you can just think of a concurrent program as one that tries to “do many things at once” – a common example might be a web server handling many requests from different users. Asyncio is an important development for Python – the language has arguably been missing support for native concurrency comparable to that in node.js or Go, to name two&nbsp;examples.</p>
+<p>If you’re trying to use asyncio and you find yourself frustrated, you should know that you’re not alone. At present, getting started developing with asyncio is still somewhat difficult. The module contains a confusing array of primitives, as Armin Ronacher <a href="http://lucumr.pocoo.org/2016/10/30/i-dont-understand-asyncio/">describes</a>, and the changes that were made between Python 3.4 and 3.5 only add to the confusion. From my perspective, the official documentation is still an unfinished product. Hopefully, it will improve to match the rest of the excellent Python standard library docs now that major changes to asyncio are less likely. There are various tutorials describing things you can build with asyncio, as well as guides to the higher-level concepts behind asyncio-style concurrency. However, if you’re stuck trying to write your first few scripts on your own, this post might help you past that&nbsp;roadblock.</p>
+<p>In an appearance on the <a href="https://talkpython.fm/episodes/show/107/python-concurrency-with-curio">Talk Python to Me</a> podcast, David Beazley expressed his frustration that so many explanations of complex libraries like asyncio start with the technical underpinnings of the design and then build up to providing practical information about using the tool. For some people, writing toy examples to play around with is the best way to grow that lower-level understanding. I’ll try to identify what you need to get started writing simple asyncio programs and explain a few details about how the module works. There are also links to the standard library documentation for each&nbsp;section.</p>
+<p>Note that, for the sake of simplicity, everything in this guide assumes you’re using Python 3.5+ (preferably 3.6, it’s great!). If you see things like <code>yield from</code> or <code>@asyncio.coroutine</code> elsewhere, the author is probably using Python 3.4. The 3.5+ equivalents are <code>await</code> and <code>async def</code>.</p>
+<h2><a href="https://docs.python.org/3/library/asyncio-task.html#coroutines">Coroutines</a></h2>
+<p>When you start writing a program with asyncio, the first thing you’ll want to do is define some coroutines. In asyncio, coroutines serve the same role as functions do in normal, synchronous code – they help break up the problem into smaller pieces. A coroutine looks a lot like a normal Python function, except that you add an <code>async</code> keyword:</p>
+<div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">foo</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Hello world&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>The code inside a coroutine can be identical to the code inside a function body – you can assign variables, call synchronous functions, <code>print()</code> things, etc. You can also do something that you can’t do inside a function: call other coroutines! To call a coroutine from inside another coroutine, you can use the <code>await</code> keyword, and then invoke the coroutine as you would a&nbsp;function:</p>
+<div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">foo</span><span class="p">():</span>
+    <span class="n">bar</span> <span class="o">=</span> <span class="k">await</span> <span class="n">baz</span><span class="p">()</span>
+</code></pre></div>
+
+
+<p>In this case, the coroutine <code>baz</code>, defined elsewhere, will be run, and whatever it returns will be assigned to <code>bar</code>. You can also run <code>baz</code> without storing its result: <code>await baz()</code>. Calling a coroutine inside another coroutine is intentionally designed to resemble calling a function. However, don’t forget: you’ll get a <code>SyntaxError</code> if you use <code>await</code> in synchronous&nbsp;code.</p>
+<h2><a href="https://docs.python.org/3/library/asyncio-eventloops.html#event-loops">Event&nbsp;Loops</a></h2>
+<p>After reading that last sentence, you might be wondering: how do you call the ”first“ coroutine before using <code>await</code> syntax to call the others? There must be a way to call coroutines ”normally“. If you’re the experimenting type, you might try calling a coroutine just like a function: <code>foo()</code>. You’ll see that nothing seems to occur (although something does happen behind the scenes). Interestingly, when you call a coroutine without <code>await</code>, you don’t actually start running the code inside the coroutine. Rather, the coroutine initializes itself and then waits for something else to tell it to&nbsp;run.</p>
+<p>So, getting back to our question: how do you run a coroutine when you aren’t already inside of another coroutine? The answer is, you have to manually “schedule” its execution. Remember, we’re trying to write programs that “do many things at once” – in this context, “scheduling” a coroutine means adding it to the set of “things” that we want to run concurrently. In order to manage this set of scheduled coroutines, we have to introduce another important asyncio concept: the event loop. I’ll explain more about what event loops are a little later, but for now you should just think of them as the black box responsible for managing the execution of all coroutines that are running at any point in time. Asyncio has a built-in function that returns the default event&nbsp;loop:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">asyncio</span>
+
+<span class="n">our_loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
+</code></pre></div>
+
+
+<h2><a href="https://docs.python.org/3/library/asyncio-task.html#task">Tasks</a></h2>
+<p>Now that we have our event loop, we need to tell it to schedule and run a coroutine. To do that, we’ll only need a few lines of code. First, as discussed above, we initialize our&nbsp;coroutine:</p>
+<div class="highlight"><pre><span></span><code><span class="n">our_task</span> <span class="o">=</span> <span class="n">our_coroutine</span><span class="p">()</span>
+</code></pre></div>
+
+
+<p>I’ve named the variable <code>our_task</code>, because <code>Task</code> is what asyncio calls an initialized coroutine. Task objects have some useful methods, but we don’t need to worry about them for now. Understanding exactly what <code>Tasks</code> are (and <code>Futures</code>, of which <code>Tasks</code> are a subclass) isn’t critical for writing simple asyncio programs. Then, we tell our event loop (which we created earlier) to run our&nbsp;task:</p>
+<div class="highlight"><pre><span></span><code><span class="n">our_loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">our_task</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>And that’s it! The event loop will manage the execution of our coroutine until it returns. Whatever <code>our_task</code> returns will also be returned by <code>run_until_complete</code>. As a side note, when we use <code>await</code> syntax to call a coroutine, that coroutine is also being scheduled by the event loop. In that case, asyncio handles the scheduling automatically, instead of having us do it ourselves. So, if <code>our_coroutine()</code> is awaiting other coroutines, the event loop is scheduling those as&nbsp;well.</p>
+<h2><a href="https://docs.python.org/3/library/asyncio-task.html#task-functions">Task&nbsp;Functions</a></h2>
+<p>With just these tools, you can start writing some toy programs to get a better feel for using asyncio. However, chances are you’ll often want to start many coroutines at the same time, and wait for all of them to complete before proceeding. Asyncio offers a few built-in ways to <code>await</code> many coroutines at the same time using just one line of code. The two most immediately useful ones are <code>asyncio.gather()</code> and <code>asyncio.wait()</code>. The difference between them is somewhat subtle. <code>asyncio.gather()</code> takes a sequence of tasks (aka initialized coroutines) passed in directly as a <code>*arg</code>. If you have, say, a list of tasks, using <code>asyncio.gather()</code> looks&nbsp;like:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># you will have written and initialized these tasks earlier, as above</span>
+<span class="n">list_of_tasks</span> <span class="o">=</span> <span class="p">[</span><span class="n">task1</span><span class="p">,</span> <span class="n">task2</span><span class="p">,</span> <span class="n">task3</span><span class="p">]</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">list_of_tasks</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>On the other hand, asyncio.wait() takes the entire sequence as its&nbsp;argument:</p>
+<div class="highlight"><pre><span></span><code><span class="n">tuple_of_tasks</span> <span class="o">=</span> <span class="p">(</span><span class="n">task1</span><span class="p">,</span> <span class="n">task2</span><span class="p">,</span> <span class="n">task3</span><span class="p">)</span>  <span class="c1"># could be a list, dict keys, etc</span>
+<span class="n">done</span><span class="p">,</span> <span class="n">pending</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">tuple_of_tasks</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>Along with the syntax, there is a functional difference between <code>gather</code> and <code>wait</code>. With <code>gather</code>, you have no control over the coroutines that are being executed. You can’t cancel them or make them time out. With <code>wait</code>, you can interact with specific tasks and cancel them. You can also control the conditions under which <code>wait</code> returns – for example, you can have it return immediately when any one of the coroutines you passed in finishes, rather than waiting for all of them. You can read <a href="https://docs.python.org/3/library/asyncio-task.html#task-functions">this</a> section of the documentation for more details. There are a few more useful task functions listed there as well: take a look at <code>as_completed</code> and <code>sleep</code>.</p>
+<h2>More on event&nbsp;loops</h2>
+<p>As I mentioned earlier, event loops are the “black boxes” that run multiple coroutines simultaneously. Event loops are designed to deal with the problem of how to &#8220;do many things at once&#8221; when you can only perform a single computation with each <span class="caps">CPU</span> cycle. As an illustrative analogy, let’s say you’ve sent a message to ten different friends and you’re waiting for them to respond. When you do receive a response, you’ll then take the time to read it. However, let’s pretend that you can only check for a response from one friend at a time, rather than all of them at once. Your solution would likely be to look for a new message from each friend in sequence, and then repeat this process from the top of the list. This is more or less what an event loop does! Event loops are used throughout your computer when something needs to monitor and wait for a “message” of some sort. For example, something resembling an event loop is used by your <span class="caps">USB</span> driver to register input from a <span class="caps">USB</span> keyboard. Some code for a very simple event loop might&nbsp;be:</p>
+<div class="highlight"><pre><span></span><code><span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">coroutine</span> <span class="ow">in</span> <span class="n">coroutines</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">coroutine</span><span class="o">.</span><span class="n">has_computation_to_run</span><span class="p">:</span>
+            <span class="n">coroutine</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+</code></pre></div>
+
+
+<p>In fact, the asyncio event loop implementation contains something like this <code>while</code> loop, albeit surrounded by a lot of other code designed to make it more efficient. You can see it in the CPython source code, here: https://github.com/python/cpython/blob/3.6/Lib/asyncio/base_events.py#L420-L423. Modern event loops don’t run continuously, but rather use events called “interrupts” to pause and resume their execution. This makes sense, because having a constantly running loop is an inefficient use of <span class="caps">CPU</span> cycles, especially when you don’t expect events to occur particularly frequently. If, in the above example, you’re expecting a new message from your friends every 2 hours or so, cycling through your messaging app constantly is probably not the best use of your time. Further details about event loop implementations are interesting, but outside the scope of this&nbsp;post.</p>
+<p>Asyncio comes with its own default implementation of an event loop, but using it isn’t essential to the functioning of asyncio. If you’d like, you can switch out the default event loop for a third-party event loop implementation. One such external event loop module that’s getting a lot of attention is <a href="https://magic.io/blog/uvloop-blazing-fast-python-networking/">uvloop</a>. Switching to another event loop is as simple as installing it with pip, importing it, and selecting&nbsp;it:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">uvloop</span>
+
+<span class="n">loop</span> <span class="o">=</span> <span class="n">uvloop</span><span class="o">.</span><span class="n">new_event_loop</span><span class="p">)</span>
+<span class="n">asyncio</span><span class="o">.</span><span class="n">set_event_loop</span><span class="p">(</span><span class="n">loop</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>Of course, the default event loop is fine for most purposes that aren’t overly concerned about performance – it’s just worth noting that it’s a piece of code like anything else and isn’t somehow magically baked into&nbsp;asyncio.</p>
+<h2>Final&nbsp;thoughts</h2>
+<p>One potential point of confusion when using asyncio revolves around the difference between “blocking” and “non-blocking” code. You’re familiar with the concept of blocking even if you don’t realize it yet – all synchronous code is blocking when run on the Python interpreter. Blocking code is code that prevents the program from continuing until it has finished executing. When you write normal Python, you can rely on the interpreter to execute the code in the order you wrote it because each instruction “blocks” until it finishes. As I mentioned above, you can run any synchronous code from inside an asynchronous coroutine. However, if any of your synchronous code has the potential to pause and not complete, it can bring the execution of your entire program to a halt. This is why, for example, you shouldn’t use the popular <a href="http://docs.python-requests.org/en/master/">Requests</a> library to make http requests inside a coroutine. Instead, you should use a library like <a href="https://aiohttp.readthedocs.io/en/stable/">Aiohttp</a>, which implements non-blocking http requests using asyncio coroutines. On the other hand, even though something like <code>print()</code> is technically blocking, it’s safe to use because its behavior and execution time is&nbsp;predictable.</p>
+<p>When I first started trying out asyncio, I found it frustrating and hard to use. I wanted to write something like the concurrent version of “hello world”, whatever that may be, but it wasn’t obvious how to do so. With just the information from this tutorial, I hope you’ll be able to write a simple program that, say, runs a bunch of coroutines which each count up to 10 concurrently. <a href="https://gist.github.com/dputtick/c76039b11f86b1a58c458321a5bbac20">Here’s a gist</a> with an example in case you’d like some inspiration. Since so many applications of concurrency involve programming for the web, you might want to try something like writing a small web crawler once you’ve got the hang of basic asyncio concepts. Best of&nbsp;luck!</p>
+<p>Thanks to Julia Evans, Laura Lindzey, and Emil Sit for their comments and&nbsp;suggestions.</p>
+</div>
+        </div>
+      </div>
+<p class="footer">© Dan Puttick, license <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a> unless otherwise noted.</p>
+    </div>
+  </body>
+</html>
