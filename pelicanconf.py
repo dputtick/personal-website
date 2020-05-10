@@ -14,7 +14,7 @@ OUTPUT_PATH = 'docs/'
 # Configure site
 AUTHOR = 'Dan Puttick'
 SITENAME = 'Dan Puttick'
-SITEURL = 'https://danielputtick.com'
+SITEURL = 'https://www.danielputtick.com'
 TIMEZONE = 'America/New_York'
 DEFAULT_LANG = 'en'
 DEFAULT_DATE_FORMAT = '%Y-%m-%d'
