@@ -36,12 +36,10 @@
     &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Hello world&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-
 &lt;p&gt;The code inside a coroutine can be identical to the code inside a function body – you can assign variables, call synchronous functions, &lt;code&gt;print()&lt;/code&gt; things, etc. You can also do something that you can’t do inside a function: call other coroutines! To call a coroutine from inside another coroutine, you can use the &lt;code&gt;await&lt;/code&gt; keyword, and then invoke the coroutine as you would a&amp;nbsp;function:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;async&lt;/span&gt; &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;foo&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
     &lt;span class="n"&gt;bar&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;await&lt;/span&gt; &lt;span class="n"&gt;baz&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
 
 &lt;p&gt;In this case, the coroutine &lt;code&gt;baz&lt;/code&gt;, defined elsewhere, will be run, and whatever it returns will be assigned to &lt;code&gt;bar&lt;/code&gt;. You can also run &lt;code&gt;baz&lt;/code&gt; without storing its result: &lt;code&gt;await baz()&lt;/code&gt;. Calling a coroutine inside another coroutine is intentionally designed to resemble calling a function. However, don’t forget: you’ll get a &lt;code&gt;SyntaxError&lt;/code&gt; if you use &lt;code&gt;await&lt;/code&gt; in synchronous&amp;nbsp;code.&lt;/p&gt;
 &lt;h2&gt;&lt;a href="https://docs.python.org/3/library/asyncio-eventloops.html#event-loops"&gt;Event&amp;nbsp;Loops&lt;/a&gt;&lt;/h2&gt;
@@ -52,17 +50,14 @@
 &lt;span class="n"&gt;our_loop&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;asyncio&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_event_loop&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-
 &lt;h2&gt;&lt;a href="https://docs.python.org/3/library/asyncio-task.html#task"&gt;Tasks&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Now that we have our event loop, we need to tell it to schedule and run a coroutine. To do that, we’ll only need a few lines of code. First, as discussed above, we initialize our&amp;nbsp;coroutine:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;our_task&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;our_coroutine&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-
 &lt;p&gt;I’ve named the variable &lt;code&gt;our_task&lt;/code&gt;, because &lt;code&gt;Task&lt;/code&gt; is what asyncio calls an initialized coroutine. Task objects have some useful methods, but we don’t need to worry about them for now. Understanding exactly what &lt;code&gt;Tasks&lt;/code&gt; are (and &lt;code&gt;Futures&lt;/code&gt;, of which &lt;code&gt;Tasks&lt;/code&gt; are a subclass) isn’t critical for writing simple asyncio programs. Then, we tell our event loop (which we created earlier) to run our&amp;nbsp;task:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;our_loop&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;run_until_complete&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;our_task&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
 
 &lt;p&gt;And that’s it! The event loop will manage the execution of our coroutine until it returns. Whatever &lt;code&gt;our_task&lt;/code&gt; returns will also be returned by &lt;code&gt;run_until_complete&lt;/code&gt;. As a side note, when we use &lt;code&gt;await&lt;/code&gt; syntax to call a coroutine, that coroutine is also being scheduled by the event loop. In that case, asyncio handles the scheduling automatically, instead of having us do it ourselves. So, if &lt;code&gt;our_coroutine()&lt;/code&gt; is awaiting other coroutines, the event loop is scheduling those as&amp;nbsp;well.&lt;/p&gt;
 &lt;h2&gt;&lt;a href="https://docs.python.org/3/library/asyncio-task.html#task-functions"&gt;Task&amp;nbsp;Functions&lt;/a&gt;&lt;/h2&gt;
@@ -72,12 +67,10 @@
 &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;await&lt;/span&gt; &lt;span class="n"&gt;asyncio&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gather&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;list_of_tasks&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-
 &lt;p&gt;On the other hand, asyncio.wait() takes the entire sequence as its&amp;nbsp;argument:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;tuple_of_tasks&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;task1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;task2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;task3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# could be a list, dict keys, etc&lt;/span&gt;
 &lt;span class="n"&gt;done&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pending&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;await&lt;/span&gt; &lt;span class="n"&gt;asyncio&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;wait&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tuple_of_tasks&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
 
 &lt;p&gt;Along with the syntax, there is a functional difference between &lt;code&gt;gather&lt;/code&gt; and &lt;code&gt;wait&lt;/code&gt;. With &lt;code&gt;gather&lt;/code&gt;, you have no control over the coroutines that are being executed. You can’t cancel them or make them time out. With &lt;code&gt;wait&lt;/code&gt;, you can interact with specific tasks and cancel them. You can also control the conditions under which &lt;code&gt;wait&lt;/code&gt; returns – for example, you can have it return immediately when any one of the coroutines you passed in finishes, rather than waiting for all of them. You can read &lt;a href="https://docs.python.org/3/library/asyncio-task.html#task-functions"&gt;this&lt;/a&gt; section of the documentation for more details. There are a few more useful task functions listed there as well: take a look at &lt;code&gt;as_completed&lt;/code&gt; and &lt;code&gt;sleep&lt;/code&gt;.&lt;/p&gt;
 &lt;h2&gt;More on event&amp;nbsp;loops&lt;/h2&gt;
@@ -88,7 +81,6 @@
             &lt;span class="n"&gt;coroutine&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;execute&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-
 &lt;p&gt;In fact, the asyncio event loop implementation contains something like this &lt;code&gt;while&lt;/code&gt; loop, albeit surrounded by a lot of other code designed to make it more efficient. You can see it in the CPython source code, here: https://github.com/python/cpython/blob/3.6/Lib/asyncio/base_events.py#L420-L423. Modern event loops don’t run continuously, but rather use events called “interrupts” to pause and resume their execution. This makes sense, because having a constantly running loop is an inefficient use of &lt;span class="caps"&gt;CPU&lt;/span&gt; cycles, especially when you don’t expect events to occur particularly frequently. If, in the above example, you’re expecting a new message from your friends every 2 hours or so, cycling through your messaging app constantly is probably not the best use of your time. Further details about event loop implementations are interesting, but outside the scope of this&amp;nbsp;post.&lt;/p&gt;
 &lt;p&gt;Asyncio comes with its own default implementation of an event loop, but using it isn’t essential to the functioning of asyncio. If you’d like, you can switch out the default event loop for a third-party event loop implementation. One such external event loop module that’s getting a lot of attention is &lt;a href="https://magic.io/blog/uvloop-blazing-fast-python-networking/"&gt;uvloop&lt;/a&gt;. Switching to another event loop is as simple as installing it with pip, importing it, and selecting&amp;nbsp;it:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;uvloop&lt;/span&gt;
@@ -96,7 +88,6 @@
 &lt;span class="n"&gt;loop&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;uvloop&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;new_event_loop&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;asyncio&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_event_loop&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;loop&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
 
 &lt;p&gt;Of course, the default event loop is fine for most purposes that aren’t overly concerned about performance – it’s just worth noting that it’s a piece of code like anything else and isn’t somehow magically baked into&amp;nbsp;asyncio.&lt;/p&gt;
 &lt;h2&gt;Final&amp;nbsp;thoughts&lt;/h2&gt;

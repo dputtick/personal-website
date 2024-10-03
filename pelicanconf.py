@@ -54,7 +54,6 @@ AUTHOR_FEED_RSS = None
 
 # Social links
 GITHUB_ADDRESS = 'https://www.github.com/dputtick'
-TWITTER_ADDRESS = 'https://www.twitter.com/dputtick'
 
 # Specifically for local development
 RELATIVE_URLS = True
