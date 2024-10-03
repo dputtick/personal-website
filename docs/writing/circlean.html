@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Dan Puttick</title>
+    <meta charset="utf-8"/>
+    <link rel="preload" href="https://www.danielputtick.com/theme/css/styles.css" as="style"/>
+    <link type="text/css" href="https://www.danielputtick.com/theme/css/reset.css" rel="stylesheet" media="all"/>
+    <link type="text/css" href="https://www.danielputtick.com/theme/css/styles.css" rel="stylesheet" media="all"/>
+    <link type="text/css" href="https://www.danielputtick.com/theme/css/pygments.css" rel="stylesheet" media="all"/>
+    <link type="image/x-icon" href="https://www.danielputtick.com/theme/favicon.png" rel="icon"/>
+    <link href="/feeds/atom.xml" type="application/atom+xml" rel="alternate" title="Dan Puttick"/>
+    <link href="/feeds/writing.atom.xml" type="application/atom+xml" rel="alternate" title="Dan Puttick Writing"/>
+  </head>
+  <body>
+    <div class="page-wrap">
+      <div class="content-wrap">
+        <div class="sidebar">
+          <h1 class="site-title"><a href="https://www.danielputtick.com">Dan Puttick</a></h1>
+          <nav>
+            <ul class="navbar-list">
+              <li class="navbar-list-item" class="active" ><a href="https://www.danielputtick.com/about.html">About</a></li>
+              <li class="navbar-list-item"><a href="https://www.danielputtick.com/writing.html">Writing</a></li>
+              <li class="navbar-list-item"><a class="icon-github" href="https://www.github.com/dputtick">Github</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="content">
+<h1 class="article-title">
+  <a href="/writing/circlean.html" rel="bookmark" title="Permalink to CIRCLean">CIRCLean</a>
+</h1>
+<div class="article-date">
+  <p title="2017-03-30T16:10:00-04:00">2017-03-30</p>
+</div>
+<div class="article">
+<p>For the last few months, I’ve been working full-time on an interesting open source project called <a href="https://github.com/CIRCL/Circlean">CIRCLean</a>. CIRCLean solves a niche yet important problem: what you do you do when you are given a <span class="caps">USB</span> drive but cannot verify that the key is safe to use? There are various exploits in the wild that use compromised <span class="caps">USB</span> key firmware as a vector, often referred to collectively as “BadUSB” attacks. These work by, for example, modifying the firmware of the key to make it “pretend” to be a keyboard and perform keystrokes on the target computer<sup id="fnref:fn-badusb"><a class="footnote-ref" href="#fn:fn-badusb">1</a></sup>. Alternatively, an otherwise normal key can contain malware and deliver it either by exploiting a kernel vulnerability or even by simple user error. One newsworthy example of an attack delivered via <span class="caps">USB</span> key was the Stuxnet<sup id="fnref:fn-stuxnet"><a class="footnote-ref" href="#fn:fn-stuxnet">2</a></sup> incident involving the Iranian nuclear&nbsp;program.</p>
+<p>Although everybody should at least be aware of <span class="caps">USB</span>-based attacks, some individuals have reason to be particularly concerned. Journalists frequently receive source materials via <span class="caps">USB</span> key, including those delivered anonymously. For engineers working at sensitive infrastructure sites with air-gapped devices, the consequences of a successful attack are high enough that taking extra precautions with any files on a <span class="caps">USB</span> key is worthwhile. In both of these areas there is a high level of Windows <span class="caps">PC</span> usage (including older versions of Windows such as <span class="caps">XP</span>), which are known to have a especially high number of <span class="caps">USB</span>-based&nbsp;vulnerabilities.</p>
+<p>CIRCLean attempts to solve this problem by leveraging a phenomenon that has only recently appeared: the widespread availability of cheap computers capable of running a full Linux distro. CIRCLean uses the Raspberry Pi to read the contents of a <span class="caps">USB</span> key without placing the user’s machine directly at risk. The central component of CIRCLean is a modified version of the Raspbian operating system. When a user inserts an untrusted <span class="caps">USB</span> key and an empty key and starts up the Pi, they are automatically mounted by a few shell scripts. Some <a href="https://github.com/CIRCL/PyCIRCLean">Python code</a> then processes and copies the files from the source key to the blank key. Attacks built into the firmware of the source key will be wasted on the Raspberry Pi and won’t be copied over<sup id="fnref:fn-caveat"><a class="footnote-ref" href="#fn:fn-caveat">3</a></sup>. In addition, CIRCLean applies a set of fairly simple heuristics to the files and any that display suspicious characteristics are identified to the user as potentially&nbsp;dangerous.</p>
+<p>The CIRCLean user interface is designed to be relatively easy for a non-technical user to understand and to avoid additional hardware requirements such as a monitor or input devices. Both keys must be inserted before the Raspberry Pi is plugged in. While analyzing and copying the files, music is played through the headphone port. When the process is complete, the Pi automatically shuts down. A log file is generated onto the destination key, containing information about the files present on the source key and any errors or warnings that occurred. Files that have been screened as potentially dangerous have their file path modified on the destination key to clearly indicated that this is the&nbsp;case.</p>
+<p>Although it might appear functionally similar, CIRCLean is not a proper antivirus program. Antivirus programs are designed to help the user determine whether or not code can be safely executed. This often involves complicated steps such as running code in a sandbox and checking for signatures that resemble known samples of malware. Fortunately for us, users of CIRCLean are likely to only want certain categories of files, usually consisting of text, images, video, database/email dumps etc. CIRCLean’s heuristics are built around a tool called libmagic, which identifies filetypes based on the presence of specific bytes at specific locations in a file. This, along with a few other third-party open source libraries, helps us find files that contain executable code, or files that are different from what their extension suggests. As long as the user doesn’t run any executable code they are likely to be safe from most garden-variety&nbsp;attacks.</p>
+<p>Why is CIRCLean an important project? First, freedom of the press is crucial for holding governments and institutions accountable to their constituents. Although we are heading towards only sharing files over the network, the proliferation of cheap <span class="caps">USB</span> storage means many files are still transferred this way. At the same time, governments are paying increased attention to information security, including using technology to exert control over their citizens. It’s critical for journalists to be able to receive information from sources without fear of placing themselves or their sources at risk. Given the shrinking budgets available for journalism, it’s beneficial for any solution to be open source and freely available. As I mentioned, <span class="caps">USB</span> key sanitization is a niche problem, so it’s not necessarily something that paid software was likely to&nbsp;address.</p>
+<p>Of course, CIRCLean isn’t perfect. It is almost certainly vulnerable to an attack intentionally designed to bypass it. Furthermore, the code is freely available for attackers to analyze. But, the typical CIRCLean user is probably mainly trying to avoid generic off-the-shelf exploits. The vast majority of successful attacks rely on un-patched software and/or user error. That said, we’re always looking for ways we can further harden CIRCLean against targeted attacks. If CIRCLean gains more widespread adoption this will become even more of a&nbsp;concern.</p>
+<p>The biggest priorities for CIRCLean going forward are improving verifiability and testability, improving the user interface, and making it easier to potentially leverage Python file handling code in other applications. So far, I’ve improved the documentation, both for potential contributors/technical users and for non-technical end users. I’ve also added a proper unit test suite for the Python code using pytest. Given the sensitive nature of this project, it’s essential that we can guarantee certain behavior when given a specific type of file as an input. Better tests and testing practices are a path to accomplishing this. I’ve also added some smaller features to our modified Raspbian kernel and made a new release incorporating the latest version of Raspbian. I’m currently working on improving the logging <span class="caps">UI</span> as well as restructuring the Python <span class="caps">API</span> so that it is easier to understand and use. I plan to write some more details about these aspects of the project in an upcoming&nbsp;post.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:fn-badusb">
+<p><a href="https://www.wired.com/2014/10/code-published-for-unfixable-usb-attack/">https://www.wired.com/2014/10/code-published-for-unfixable-usb-attack/</a>&#160;<a class="footnote-backref" href="#fnref:fn-badusb" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:fn-stuxnet">
+<p><a href="https://en.wikipedia.org/wiki/Stuxnet">https://en.wikipedia.org/wiki/Stuxnet</a>&#160;<a class="footnote-backref" href="#fnref:fn-stuxnet" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:fn-caveat">
+<p>That is, unless they are specifically designed to transfer themselves to an uninfected <span class="caps">USB</span> key via a flaw in the Linux kernel, pmount, the <span class="caps">USB</span> driver, etc.&#160;<a class="footnote-backref" href="#fnref:fn-caveat" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+</div>
+        </div>
+      </div>
+<p class="footer">© Dan Puttick, license <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a> unless otherwise noted.</p>
+    </div>
+  </body>
+</html>

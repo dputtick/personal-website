@@ -14,7 +14,6 @@
     {% endif %}
     {% if CATEGORY_FEED_ATOM %}
     <link href="/feeds/writing.atom.xml" type="application/atom+xml" rel="alternate" title="Dan Puttick Writing"/>
-    <link href="/feeds/journal.atom.xml" type="application/atom+xml" rel="alternate" title="Dan Puttick Journal"/>
     {% endif %}
     {% endblock head %}
   </head>
@@ -26,10 +25,9 @@
           <h1 class="site-title"><a href="{{ SITEURL }}">{{ SITENAME }}</a></h1>
           <nav>
             <ul class="navbar-list">
-              <li class="navbar-list-item"><a href="{{ SITEURL }}/writing.html">Writing</a></li>
-              <li class="navbar-list-item"><a href="{{ SITEURL }}/journal.html">Journal</a></li>
-              <li class="navbar-list-item"><a class="icon-github" href="{{ GITHUB_ADDRESS }}">Github</a></li>
               <li class="navbar-list-item"{% if p == page %} class="active" {% endif %}><a href="{{ SITEURL }}/about.html">About</a></li>
+              <li class="navbar-list-item"><a href="{{ SITEURL }}/writing.html">Writing</a></li>
+              <li class="navbar-list-item"><a class="icon-github" href="{{ GITHUB_ADDRESS }}">Github</a></li>
             </ul>
           </nav>
         </div>
